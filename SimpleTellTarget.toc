@@ -1,0 +1,13 @@
+## Interface: 30200
+
+## Title: SimpleTellTarget
+## Notes: Adds a /tt command for whispering your current target
+## Author: Quaiche
+## Version: @project-version@
+## X-Category: Chat/Communication
+## X-License: Apache 2.0
+
+libs/LibStub.lua
+libs/tekKonfigAboutPanel.lua
+
+SimpleTellTarget.lua

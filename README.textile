@@ -1,0 +1,5 @@
+h2. Overview
+
+Adds a /tt command for sending whispers to your current target.
+
+No configuration required, just install and go.
