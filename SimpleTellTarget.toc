@@ -1,7 +1,7 @@
 ## Interface: 30200
 
 ## Title: SimpleTellTarget
-## Notes: Adds a /tt command for whispering your current target
+## Notes: Adds a /tt command for whispering your current target. No configuration required.
 ## Author: Quaiche
 ## Version: @project-version@
 ## X-Category: Chat/Communication
