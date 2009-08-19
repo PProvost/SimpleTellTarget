@@ -25,7 +25,6 @@ function f:ADDON_LOADED(event, addon)
 end
 
 SLASH_SIMPLETELLTARGET1 = "/tt"
-SLASH_SIMPLETELLTARGET2 = "/telltarget"
 SlashCmdList.SIMPLETELLTARGET = function(msg)
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player","target") then
 		UIErrorsFrame:AddMessage("Unable to whisper target", 1.0, 0.0, 0.0, 1, 5)
@@ -33,3 +32,20 @@ SlashCmdList.SIMPLETELLTARGET = function(msg)
 	SendChatMessage(msg, "WHISPER", nil, UnitName("target"))
 end
 
+-- Pre-Hook the ChatFrameEditBox OnTextChanged script
+-- to change a /tt into a whisper
+local orig = ChatFrameEditBox:GetScript("OnTextChanged")
+local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
+	if isUserInput ~= true then return end
+
+	local message = string.match( self:GetText(), "^/tt (.*)" )
+	if message and if UnitExists("target") and UnitIsPlayer("target") and UnitIsFriend("player","target") then
+		local name, realm = UnitName("target")
+		if name and not UnitIsSameServer("player", "target") then name = string.format("%s-%s", name, realm) end
+		ChatFrame_SendTell(name, self)
+		ChatFrameEditBox:SetText(message)
+	end
+
+	if orig then orig(self, isUserInput, ...) end
+end
+ChatFrameEditBox:SetScript("OnTextChanged", ChatFrameEditBox_OnTextChanged)
