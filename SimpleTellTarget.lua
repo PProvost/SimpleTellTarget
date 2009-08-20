@@ -24,15 +24,6 @@ function f:ADDON_LOADED(event, addon)
 	self:UnregisterEvent("ADDON_LOADED"); self.ADDON_LOADED = nil
 end
 
--- Not sure we even need this given the hooking trick below...
-SLASH_SIMPLETELLTARGET1 = "/tt"
-SlashCmdList.SIMPLETELLTARGET = function(msg)
-	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player","target") then
-		UIErrorsFrame:AddMessage("Unable to whisper target", 1.0, 0.0, 0.0, 1, 5)
-	end
-	SendChatMessage(msg, "WHISPER", nil, UnitName("target"))
-end
-
 -- Pre-Hook the ChatFrameEditBox OnTextChanged script to change a /tt into a whisper
 local orig = ChatFrameEditBox:GetScript("OnTextChanged")
 local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
@@ -49,3 +40,14 @@ local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
 	if orig then orig(self, isUserInput, ...) end
 end
 ChatFrameEditBox:SetScript("OnTextChanged", ChatFrameEditBox_OnTextChanged)
+
+-- Including a proper slash handler as well for use with Macros. Should see if I can combine some of this
+-- code with that below.
+SLASH_SIMPLETELLTARGET1 = "/tt"
+SlashCmdList.SIMPLETELLTARGET = function(msg)
+	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player","target") then
+		UIErrorsFrame:AddMessage("Unable to whisper target", 1.0, 0.0, 0.0, 1, 5)
+	end
+	SendChatMessage(msg, "WHISPER", nil, UnitName("target"))
+end
+

@@ -1,5 +1,8 @@
 h2. Overview
 
-Adds a /tt command for sending whispers to your current target.
+Adds a /tt command for sending whispers to your current target. When used interactively it
+will dynamically change the text from /yy to a whisper showing your target's name. Also can be
+used from macros.
 
 No configuration required, just install and go.
+
