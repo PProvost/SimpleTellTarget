@@ -24,6 +24,7 @@ function f:ADDON_LOADED(event, addon)
 	self:UnregisterEvent("ADDON_LOADED"); self.ADDON_LOADED = nil
 end
 
+-- Not sure we even need this given the hooking trick below...
 SLASH_SIMPLETELLTARGET1 = "/tt"
 SlashCmdList.SIMPLETELLTARGET = function(msg)
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player","target") then
@@ -32,17 +33,16 @@ SlashCmdList.SIMPLETELLTARGET = function(msg)
 	SendChatMessage(msg, "WHISPER", nil, UnitName("target"))
 end
 
--- Pre-Hook the ChatFrameEditBox OnTextChanged script
--- to change a /tt into a whisper
+-- Pre-Hook the ChatFrameEditBox OnTextChanged script to change a /tt into a whisper
 local orig = ChatFrameEditBox:GetScript("OnTextChanged")
 local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
 	if isUserInput ~= true then return end
 
 	local message = string.match( self:GetText(), "^/tt (.*)" )
-	if message and if UnitExists("target") and UnitIsPlayer("target") and UnitIsFriend("player","target") then
+	if message and UnitExists("target") and UnitIsPlayer("target") and UnitIsFriend("player","target") then
 		local name, realm = UnitName("target")
 		if name and not UnitIsSameServer("player", "target") then name = string.format("%s-%s", name, realm) end
-		ChatFrame_SendTell(name, self)
+		ChatFrame_SendTell(name)
 		ChatFrameEditBox:SetText(message)
 	end
 
