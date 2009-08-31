@@ -44,6 +44,7 @@ ChatFrameEditBox:SetScript("OnTextChanged", ChatFrameEditBox_OnTextChanged)
 -- Including a proper slash handler as well for use with Macros. Should see if I can combine some of this
 -- code with that below.
 SLASH_SIMPLETELLTARGET1 = "/tt"
+SLASH_SIMPLETELLTARGET1 = "/wt"
 SlashCmdList.SIMPLETELLTARGET = function(msg)
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player","target") then
 		UIErrorsFrame:AddMessage("Unable to whisper target", 1.0, 0.0, 0.0, 1, 5)
