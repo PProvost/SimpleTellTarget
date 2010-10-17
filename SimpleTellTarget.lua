@@ -24,8 +24,8 @@ function f:ADDON_LOADED(event, addon)
 	self:UnregisterEvent("ADDON_LOADED"); self.ADDON_LOADED = nil
 end
 
--- Pre-Hook the ChatFrameEditBox OnTextChanged script to change a /tt into a whisper
-local orig = ChatFrameEditBox:GetScript("OnTextChanged")
+-- Pre-Hook the ChatFrame1EditBox OnTextChanged script to change a /tt into a whisper
+local orig = ChatFrame1EditBox:GetScript("OnTextChanged")
 local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
 	if isUserInput ~= true then return end
 
@@ -34,12 +34,12 @@ local function ChatFrameEditBox_OnTextChanged(self, isUserInput, ...)
 		local name, realm = UnitName("target")
 		if name and not UnitIsSameServer("player", "target") then name = string.format("%s-%s", name, realm) end
 		ChatFrame_SendTell(name)
-		ChatFrameEditBox:SetText(message)
+		ChatFrame1EditBox:SetText(message)
 	end
 
 	if orig then orig(self, isUserInput, ...) end
 end
-ChatFrameEditBox:SetScript("OnTextChanged", ChatFrameEditBox_OnTextChanged)
+ChatFrame1EditBox:SetScript("OnTextChanged", ChatFrameEditBox_OnTextChanged)
 
 -- Including a proper slash handler as well for use with Macros. Should see if I can combine some of this
 -- code with that below.
